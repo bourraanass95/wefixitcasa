@@ -780,119 +780,7 @@ const TestimonialCard = ({ name, role, review, rating, delay }: { name: string, 
   </motion.div>
 );
 
-const ContactForm = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [formData, setFormData] = useState({ name: '', phone: '', message: '' });
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        setIsSuccess(true);
-        setFormData({ name: '', phone: '', message: '' }); // Reset form fields
-        // Reset success message after 5 seconds
-        setTimeout(() => setIsSuccess(false), 5000);
-      } else {
-        console.error('Failed to send message');
-        // You could add an error state here if needed
-      }
-    } catch (error) {
-      console.error('Error submitting form:', error);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.currentTarget;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="space-y-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div className="space-y-2">
-            <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4">Nom Complet</label>
-            <input 
-              required
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              type="text" 
-              placeholder="Ex: Amine" 
-              className="w-full bg-slate-50 border-2 border-slate-50 rounded-2xl px-6 py-4 focus:border-brand-pink focus:bg-white outline-none transition-all font-bold text-slate-900 placeholder:text-slate-300"
-            />
-          </div>
-          <div className="space-y-2">
-            <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4">Téléphone</label>
-            <input 
-              required
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              type="tel" 
-              placeholder="06..." 
-              className="w-full bg-slate-50 border-2 border-slate-50 rounded-2xl px-6 py-4 focus:border-brand-pink focus:bg-white outline-none transition-all font-bold text-slate-900 placeholder:text-slate-300"
-            />
-          </div>
-        </div>
-        <div className="space-y-2">
-          <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4">Mochkil (Le problème)</label>
-          <textarea 
-            required
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
-            rows={4}
-            placeholder="Décrivez votre problème informatique..." 
-            className="w-full bg-slate-50 border-2 border-slate-50 rounded-2xl px-6 py-4 focus:border-brand-pink focus:bg-white outline-none transition-all font-bold text-slate-900 resize-none placeholder:text-slate-300"
-          ></textarea>
-        </div>
-      </div>
-
-      <div className="space-y-4">
-        <Button 
-          type="submit"
-          className="w-full py-6 text-xl" 
-          isLoading={isSubmitting}
-          variant={isSuccess ? "success" : "primary"}
-        >
-          {isSuccess ? "Message Envoyé !" : "Envoyer le message"}
-        </Button>
-
-        <Button 
-          type="button"
-          variant="outline" 
-          className="w-full py-6 text-xl border-2 border-[#25D366] text-[#25D366] hover:bg-[#25D366] hover:text-white"
-          onClick={() => window.open('https://wa.me/212620917600', '_blank')}
-        >
-          <MessageSquare size={24} />
-          Contact WhatsApp
-        </Button>
-      </div>
-      
-      {isSuccess && (
-        <motion.p 
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center text-xs font-black uppercase tracking-widest text-[#25D366]"
-        >
-          Hania ! On vous contacte bientôt.
-        </motion.p>
-      )}
-    </form>
-  );
-};
 
 const TestimonialsSection = () => {
   const reviews = [
@@ -1390,8 +1278,38 @@ En utilisant nos services, vous consentez à la collecte et à l'utilisation sé
               </div>
             </div>
 
-            <div className="bg-white p-8 md:p-12 rounded-[4rem] shadow-2xl shadow-slate-200/50 border border-slate-100">
-              <ContactForm />
+            <div className="bg-white p-8 md:p-12 rounded-[4rem] shadow-2xl shadow-slate-200/50 border border-slate-100 flex flex-col gap-6 items-center justify-center text-center">
+              <div className="space-y-4 w-full">
+                <Button 
+                  type="button"
+                  className="w-full py-8 text-2xl flex items-center justify-center gap-3 bg-[#25D366] hover:bg-[#128C7E] border-none shadow-lg shadow-green-200"
+                  onClick={() => window.open('https://wa.me/212620917600', '_blank')}
+                >
+                  <MessageSquare size={32} />
+                  Contact WhatsApp
+                </Button>
+
+                <Button 
+                  type="button"
+                  variant="outline" 
+                  className="w-full py-8 text-2xl flex items-center justify-center gap-3 border-2 border-slate-200 hover:bg-slate-50 text-slate-900"
+                  onClick={() => {
+                    const email = 'wefixitcasa@gmail.com';
+                    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                    if (isMobile) {
+                      window.location.href = `mailto:${email}`;
+                    } else {
+                      window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${email}`, '_blank');
+                    }
+                  }}
+                >
+                  <Mail size={32} />
+                  Envoyer un Email
+                </Button>
+              </div>
+              <p className="text-slate-400 font-bold uppercase tracking-widest text-[10px] mt-4 italic">
+                Réponse garantie en moins de 15 minutes
+              </p>
             </div>
           </div>
         </div>
