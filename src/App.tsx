@@ -333,12 +333,12 @@ const servicesData = [
     id: 'formatting',
     icon: Laptop,
     title: "Formatage & Boost PC",
-    description: "Réinstallation propre de Windows avec optimisation complète (Kiet9el solution). Stable, rapide et 'nadi'.",
+    description: "Réinstallation propre de Windows avec optimisation complète (Solution PC Lent). Stable, rapide et 'nadi'.",
     color: "bg-brand-orange",
     details: [
       "Sauvegarde complète de vos données avant l'opération",
       "Installation de Windows/macOS (dernière version stable)",
-      "Optimisation du démarrage et suppression du 'lkhikh'",
+      "Optimisation du démarrage et suppression des fichiers inutiles",
       "Installation des logiciels indispensables et drivers",
       "Nettoyage système pour une vitesse maximale"
     ]
@@ -352,7 +352,7 @@ const servicesData = [
     details: [
       "Suppression radicale de virus, malwares et ransomwares",
       "Installation d'Antivirus pro (Kaspersky, Bitdefender, ESET)",
-      "Fourniture de clés Windows et Office genuine (à vie)",
+      "Fourniture de clés Windows et Office authentiques",
       "Mises à jour de sécurité critiques pour votre système",
       "Nettoyage profond et optimisation de la base de registre"
     ]
@@ -431,28 +431,28 @@ const servicesData = [
     id: 'cloud',
     icon: Cloud,
     title: "Cloud & Setup Pro",
-    description: "Migration M365/Google + setup complet PC neuf (bloatware removed). Prêt à l'emploi avec sauvegarde Cloud.",
+    description: "Migration M365/Google + setup complet PC neuf (PC optimisé). Prêt à l'emploi avec sauvegarde Cloud.",
     color: "bg-brand-pink",
     details: [
       "Configuration de OneDrive, Google Drive ou Dropbox",
       "Migration de vos emails vers Gmail Pro ou Outlook",
       "Passage d'un ancien PC vers un PC neuf sans perte",
-      "Suppression des logiciels pré-installés inutiles",
+      "Suppression des logiciels inutiles",
       "Formation rapide sur les outils Cloud"
     ]
   },
   {
     id: 'digital',
     icon: Code,
-    title: "Web, Mobile & Social",
-    description: "Création de sites web, applications mobiles et gestion de réseaux sociaux pour booster votre présence.",
+    title: "Web & Mobile Development",
+    description: "Création de sites web et applications mobiles performantes pour booster votre présence en ligne.",
     color: "bg-brand-purple",
     details: [
       "Développement de sites vitrines et E-commerce",
       "Création d'applications mobiles (iOS & Android)",
-      "Gestion et animation de vos réseaux sociaux (CM)",
-      "Stratégie de publicité (Facebook/Instagram Ads)",
-      "Design graphique et identité visuelle"
+      "Optimisation du référencement (SEO)",
+      "Maintenance technique évolutive",
+      "Design graphique et interfaces modernes"
     ]
   }
 ];
@@ -623,6 +623,189 @@ const FloatingWhatsApp = () => {
 
 // --- FAQ Component ---
 
+const PriceEstimator = () => {
+  const [step, setStep] = useState(1);
+  const [device, setDevice] = useState<'laptop' | 'desktop'>('laptop');
+  const [problem, setProblem] = useState<string>('slow');
+
+  const estimates: Record<string, string> = {
+    'slow': '150 - 300 DH',
+    'screen': '400 - 1200 DH',
+    'virus': '200 - 350 DH',
+    'battery': '300 - 600 DH',
+    'formatting': '200 - 400 DH',
+    'disk': '400 - 900 DH',
+  };
+
+  const problems = [
+    { id: 'slow', label: 'PC Lent / S\'allume pas', icon: Zap },
+    { id: 'screen', label: 'Écran Cassé / Noir', icon: Smartphone },
+    { id: 'virus', label: 'Virus / Publicités', icon: ShieldCheck },
+    { id: 'battery', label: 'Batterie / Chargeur', icon: Smartphone },
+    { id: 'formatting', label: 'Formatage / Windows', icon: Laptop },
+    { id: 'disk', label: 'Disque Dur / SSD', icon: Database },
+  ];
+
+  return (
+    <section id="estimate" className="py-16 md:py-32 bg-white overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="bg-slate-900 rounded-[3rem] md:rounded-[4rem] p-6 py-12 md:p-20 text-white relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-brand-pink opacity-20 blur-[100px] -z-0" />
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-brand-purple opacity-20 blur-[100px] -z-0" />
+          
+          <div className="relative z-10 grid lg:grid-cols-2 gap-16 items-center text-center lg:text-left">
+            <div>
+              <span className="text-brand-pink font-black uppercase text-xs tracking-[0.3em] mb-6 block">// ESTIMATION INTERACTIVE</span>
+              <h2 className="text-4xl md:text-7xl font-black font-display uppercase tracking-tighter leading-tight mb-8">
+                SIMULEZ VOTRE <br /> <span className="text-insta-gradient">RÉPARATION.</span>
+              </h2>
+              <p className="text-slate-400 font-medium text-lg leading-relaxed mb-10 max-w-md">
+                Un outil simple pour comprendre les tarifs avant même de nous appeler. Choisissez vos options à droite.
+              </p>
+              
+              <div className="hidden lg:flex flex-col gap-6">
+                {[
+                  { s: 1, label: "Choisissez l'appareil" },
+                  { s: 2, label: "Identifiez le problème" },
+                  { s: 3, label: "Obtenez le prix" }
+                ].map((s) => (
+                  <div key={s.s} className={cn(
+                    "flex items-center gap-4 transition-all duration-500",
+                    step >= s.s ? "opacity-100 translate-x-0" : "opacity-30 -translate-x-4"
+                  )}>
+                    <div className={cn(
+                      "w-8 h-8 rounded-full flex items-center justify-center font-black text-xs",
+                      step === s.s ? "bg-insta-gradient text-white" : "bg-white/10 text-white/50"
+                    )}>
+                      {s.s}
+                    </div>
+                    <span className="font-bold uppercase tracking-widest text-[10px]">{s.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-white/5 backdrop-blur-xl p-6 md:p-12 rounded-[3rem] border border-white/10 shadow-2xl relative">
+              {/* Mobile Progress Indicator */}
+              <div className="flex lg:hidden justify-center gap-2 mb-8">
+                {[1, 2, 3].map((s) => (
+                  <div 
+                    key={s} 
+                    className={cn(
+                      "h-1.5 rounded-full transition-all duration-300",
+                      step === s ? "w-8 bg-brand-pink" : "w-4 bg-white/10"
+                    )} 
+                  />
+                ))}
+              </div>
+
+              <AnimatePresence mode="wait">
+                {step === 1 && (
+                  <motion.div 
+                    key="step1"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    className="space-y-8"
+                  >
+                    <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 text-center md:text-left">ÉTAPE 01: L'APPAREIL</label>
+                    <div className="grid grid-cols-2 gap-4 md:gap-6">
+                      {[
+                        { id: 'laptop', label: 'Laptop', icon: Laptop },
+                        { id: 'desktop', label: 'Desktop', icon: Settings }
+                      ].map((d) => (
+                        <button 
+                          key={d.id}
+                          onClick={() => { setDevice(d.id as any); setStep(2); }}
+                          className={cn(
+                            "group p-6 md:p-8 rounded-3xl flex flex-col items-center gap-3 md:gap-4 transition-all border-2",
+                            device === d.id ? "bg-white text-slate-900 border-white" : "bg-white/5 text-white border-white/10 hover:border-white/30"
+                          )}
+                        >
+                          <d.icon size={32} className={cn("md:w-10 md:h-10", device === d.id ? "text-brand-pink" : "text-white opacity-50 group-hover:opacity-100")} />
+                          <span className="font-black uppercase tracking-widest text-[9px] md:text-[10px]">{d.label}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+
+                {step === 2 && (
+                  <motion.div 
+                    key="step2"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    className="space-y-8"
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                       <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400">ÉTAPE 02: LE PROBLÈME</label>
+                       <button onClick={() => setStep(1)} className="text-[9px] font-black uppercase tracking-widest text-brand-pink hover:underline">Retour</button>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      {problems.map((p) => (
+                        <button 
+                          key={p.id}
+                          onClick={() => { setProblem(p.id); setStep(3); }}
+                          className={cn(
+                            "py-4 px-6 rounded-2xl font-bold text-left text-[11px] transition-all border flex items-center gap-3",
+                            problem === p.id ? "bg-white text-slate-900 border-white" : "bg-white/5 border-white/10 text-slate-300 hover:bg-white/10"
+                          )}
+                        >
+                          <p.icon size={16} className={problem === p.id ? "text-brand-pink" : "text-white/30"} />
+                          {p.label}
+                        </button>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+
+                {step === 3 && (
+                  <motion.div 
+                    key="step3"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="space-y-10 py-4"
+                  >
+                    <div className="text-center">
+                      <div className="inline-flex items-center gap-2 bg-brand-pink/20 text-brand-pink px-4 py-2 rounded-full mb-6">
+                        <CheckCircle2 size={16} />
+                        <span className="text-[10px] font-black uppercase tracking-widest">Estimation Prête</span>
+                      </div>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Prix estimé pour {device} ({problem})</p>
+                      <p className="text-6xl md:text-7xl font-black font-display text-white italic tracking-tighter mb-8 leading-none">
+                        {estimates[problem] || '--'}
+                      </p>
+                    </div>
+
+                    <div className="space-y-4">
+                      <Button variant="primary" className="w-full py-6 text-xl shadow-2xl shadow-brand-pink/40" onClick={() => window.open(`https://wa.me/212620917600?text=Bonjour, 3endi mochkil f ${device} (${problem}), bghit devis précis svp.`, '_blank')}>
+                        Fix it Daba
+                      </Button>
+                      
+                      <Button 
+                        variant="outline" 
+                        className="w-full py-4 text-xs font-black uppercase tracking-widest border-white/20 text-white hover:bg-white/10" 
+                        onClick={() => setStep(1)}
+                      >
+                        Nouveau Diagnostic
+                      </Button>
+                    </div>
+                    
+                    <p className="text-[10px] font-bold text-slate-500 mt-6 italic text-center leading-relaxed">
+                      * Hors coût des pièces si nécessaire. <br /> Diagnostic final gratuit si réparation acceptée.
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const FAQItem = ({ question, answer }: { question: string; answer: string, key?: any }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -668,48 +851,32 @@ const FAQItem = ({ question, answer }: { question: string; answer: string, key?:
 const FAQSection = () => {
   const faqs = [
     {
-      question: "Vous vous déplacez partout ?",
-      answer: "Pour l'instant, nous intervenons exclusivement à Casablanca et ses environs proches (Bouskoura, Dar Bouazza, Mohammedia, Nouaceur). Si vous êtes un peu plus loin, contactez-nous sur WhatsApp pour voir si une intervention exceptionnelle est possible."
+      question: "Vous vous déplacez partout à Casa ?",
+      answer: "Absolument. Nous intervenons dans tous les quartiers de Casablanca : Maarif, Gauthier, Racine, Bourgogne, Mers Sultan, et aussi les zones plus excentrées comme Bouskoura, Dar Bouazza et Mohammedia."
+    },
+    {
+      question: "Quelles sont vos marques de prédilection ?",
+      answer: "Nous sommes experts sur toutes les marques majeures : Apple (MacBook, iMac), HP, Dell, Lenovo, ASUS, Acer et MSI. Que ce soit un PC gamer ou un ordinateur de bureau pro, nous avons les outils et l'expertise."
+    },
+    {
+      question: "La règle 'Pas de réparation = Pas de frais' ?",
+      answer: "C'est notre politique de transparence. Si le problème est irréparable ou si nous ne trouvons pas de solution, vous ne payez rien à part les frais de diagnostic/déplacement de 49 DH. Zéro mauvaise surprise."
     },
     {
       question: "Combien de temps dure une intervention ?",
-      answer: "Il faut prévoir minimum 30 minutes pour les diagnostics de base. La majorité des pannes sont réglées en 1h à 2h. Si le problème est complexe, cela peut prendre plus de temps, mais nous vous tenons informé en temps réel."
+      answer: "La majorité des pannes sont réglées sur place très rapidement. Un formatage ou une optimisation prend généralement entre 45 minutes et 1h30."
     },
     {
       question: "Comment se passe le paiement ?",
       answer: "La confiance d'abord : vous payez une fois la mission accomplie et testée. Nous acceptons le Cash, le virement bancaire instantané ou CIH Mobile."
     },
     {
-      question: "Quels types d'appareils réparez-vous ?",
-      answer: "Nous intervenons sur tous les appareils informatiques en général : PC fixes, Laptops (PC & Mac), MacBook (Air/Pro) et iMac. Que ce soit pour une réparation matérielle (changement d'écran, clavier, batterie, upgrade SSD/RAM), un problème système (lenteurs Windows/macOS, virus, écran bleu), ou une installation de logiciels et configuration réseau/Wifi."
-    },
-    {
-      question: "Y a-t-il une garantie sur la réparation ?",
-      answer: "Absolument. Nous offrons une garantie de satisfaction. Si le même bug réapparaît dans les 7 jours suivant notre passage, nous revenons gratuitement pour régler le problème définitivement."
-    },
-    {
       question: "Est-ce que mes fichiers sont en sécurité ?",
-      answer: "C'est notre priorité n°1. Nous respectons scrupuleusement votre vie privée. Si un formatage est nécessaire, nous effectuons systématiquement une sauvegarde complète de vos documents, photos et dossiers importants avant toute opération."
+      answer: "C'est notre priorité n°1. Si un formatage est nécessaire, nous effectuons systématiquement une sauvegarde complète de vos documents et photos avant toute opération. Nous garantissons une confidentialité totale."
     },
     {
       question: "Pourquoi 49 DH pour le diagnostic ?",
-      answer: "Ces frais couvrent le déplacement et l'expertise technique initiale. La bonne nouvelle : si vous décidez d'effectuer la réparation avec nous, ces 49 DH sont totalement déduits de la facture finale. C'est donc gratuit si on répare !"
-    },
-    {
-      question: "Dois-je me déplacer avec mon matériel ?",
-      answer: "Pas du tout. C'est tout le concept de WEFIXITCASA : nous venons à vous. Que vous soyez à la maison, au bureau ou dans un café à Casa, on apporte l'atelier sur place pour vous éviter le trafic et la perte de temps."
-    },
-    {
-      question: "Réparez-vous les smartphones ou tablettes ?",
-      answer: "Non, nous avons choisi de nous concentrer exclusivement sur l'informatique (PC, Mac, Serveurs). Cela nous permet d'être les meilleurs dans notre domaine et d'avoir toujours les pièces et outils spécifiques pour vos ordinateurs."
-    },
-    {
-      question: "Comment prendre rendez-vous ?",
-      answer: "Le plus simple est d'utiliser le bouton WhatsApp sur le site. Envoyez-nous une courte description ou une photo du problème, et on vous répond en moins de 15 minutes."
-    },
-    {
-      question: "Intervenez-vous aussi le weekend ?",
-      answer: "Oui ! Nous intervenons aussi le samedi et le dimanche pour vos urgences avec un supplément fixe de 89 DH."
+      answer: "Ces frais couvrent le déplacement et l'analyse technique initiale. Si vous réparez avec nous, ces 49 DH sont déduits de la facture finale. C'est donc gratuit si on travaille ensemble !"
     }
   ];
 
@@ -929,7 +1096,7 @@ En utilisant nos services, vous consentez à la collecte et à l'utilisation sé
             </h1>
             
             <p className="text-lg md:text-2xl text-slate-500 mb-12 md:mb-16 max-w-2xl mx-auto font-medium leading-relaxed tracking-tight px-4">
-              Diagnostic et dépannage ultra-rapide là où vous êtes. Pas de blabla technique, juste des résultats et un service 100% Hania.
+              Diagnostic et dépannage ultra-rapide à <strong>Casablanca et ses environs</strong>. Pas de blabla technique, juste des résultats.
             </p>
             
             <div className="flex justify-center items-center mb-20 md:mb-32">
@@ -961,8 +1128,8 @@ En utilisant nos services, vous consentez à la collecte et à l'utilisation sé
               <p className="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-[0.3em]">Diagnostic & Déplacement</p>
             </div>
             <div className="group cursor-pointer text-center md:text-left">
-              <p className="text-3xl md:text-6xl font-black text-insta-gradient leading-none mb-2">2H</p>
-              <p className="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-[0.3em]">Intervention Max</p>
+              <p className="text-3xl md:text-6xl font-black text-insta-gradient leading-none mb-2">RAPIDE</p>
+              <p className="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-[0.3em]">Intervention Express</p>
             </div>
             <div className="group cursor-pointer text-center md:text-left">
               <p className="text-3xl md:text-6xl font-black text-insta-gradient leading-none mb-2">100%</p>
@@ -1004,7 +1171,7 @@ En utilisant nos services, vous consentez à la collecte et à l'utilisation sé
               {
                 icon: Zap,
                 title: "Ultra-Rapide",
-                desc: "Diagnostic immédiat et réparation en moins de 2H pour la majorité des pannes.",
+                desc: "Diagnostic immédiat et réparation ultra-rapide pour la majorité des pannes.",
                 color: "text-brand-pink",
                 bg: "bg-brand-pink/5"
               },
@@ -1190,7 +1357,7 @@ En utilisant nos services, vous consentez à la collecte et à l'utilisation sé
                 <span className="text-6xl font-black font-display tracking-tighter uppercase leading-none italic">DEVIS</span>
               </div>
               <p className="text-slate-600 font-bold mb-10 leading-relaxed uppercase text-sm tracking-widest">
-                Web/App Development, Social Media Branding <br />
+                Web/App Development <br />
                 & Maintenance Informatique B2B.
               </p>
               <Button variant="outline" className="w-full rounded-3xl py-6 text-xl" onClick={handleWhatsApp}>DEMANDER UN DEVIS</Button>
@@ -1241,6 +1408,7 @@ En utilisant nos services, vous consentez à la collecte et à l'utilisation sé
       </section>
 
       {/* FAQ Section */}
+      <PriceEstimator />
       <FAQSection />
 
       {/* Testimonials Section */}
